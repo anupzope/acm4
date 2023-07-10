@@ -222,6 +222,9 @@ AS_IF(
     
     dnl for C preprocessor
     AC_DEFINE([HAVE_LOCI], [1], [Defined if Loci library is detected.])
+    
+    dnl set LPP variable for use in Makefiles
+    AC_SUBST([LPP], [${LOCI_BASE}/bin/lpp])
   ],
   [
     dnl for configure use
@@ -241,7 +244,7 @@ AS_IF(
   [test "x$_configure_loci_req" = "xauto"],
   [AS_IF([test "x$use_loci" = "xyes"],[],[AC_MSG_WARN([Loci not found, will not use Loci])])],
   [test "x$_configure_loci_req" = "xno"],
-  [AC_MSG_NOTICE([Loci not requested])] 
+  [AC_MSG_NOTICE([Loci not requested])]
 )
 
 ])

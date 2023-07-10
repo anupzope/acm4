@@ -98,13 +98,13 @@ AS_IF(
           [ParMETIS_V3_PartKway],
           [
             _configure_parmetis_library_found="yes"
-            PARMETIS_LIBS="-lparmetis $_configure_parmetis_path/lib/libGKlib.a -lm"
+            PARMETIS_LIBS="-lparmetis -lGKlib -lm"
             PARMETIS_LDFLAGS="-L$_configure_parmetis_path/lib"
           ],
           [
             _configure_parmetis_library_found="no"
           ],
-	  [$_configure_parmetis_path/lib/libGKlib.a -lm]
+	  [-lGKlib -lm]
         )
         
         AS_IF(
@@ -118,13 +118,13 @@ AS_IF(
               [ParMETIS_V3_PartKway],
               [
                 _configure_parmetis_library_found="yes"
-                PARMETIS_LIBS="-lparmetis $_configure_parmetis_path/lib64/libGKlib.a -lm"
+                PARMETIS_LIBS="-lparmetis -lGKlib -lm"
                 PARMETIS_LDFLAGS="-L$_configure_parmetis_path/lib"
               ],
               [
                 _configure_parmetis_library_found="no"
               ],
-	      [$_configure_parmetis_path/lib64/libGKlib.a -lm]
+	      [-lGKlib -lm]
             )
           ]
         )

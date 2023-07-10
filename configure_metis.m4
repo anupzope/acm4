@@ -96,13 +96,13 @@ AS_IF(
           [METIS_Free],
           [
             _configure_metis_library_found="yes"
-            METIS_LIBS="-lmetis $_configure_metis_path/lib/libGKlib.a -lm"
+            METIS_LIBS="-lmetis -lGKlib -lm"
             METIS_LDFLAGS="-L$_configure_metis_path/lib"
           ],
           [
             _configure_metis_library_found="no"
           ],
-	  [$_configure_metis_path/lib/libGKlib.a -lm]
+	  [-lGKlib -lm]
         )
         
         AS_IF(
@@ -116,13 +116,13 @@ AS_IF(
               [METIS_Free],
               [
                 _configure_metis_library_found="yes"
-                METIS_LIBS="-lmetis $_configure_metis_path/lib64/libGKlib.a -lm"
+                METIS_LIBS="-lmetis -lGKlib -lm"
                 METIS_LDFLAGS="-L$_configure_metis_path/lib"
               ],
               [
                 _configure_metis_library_found="no"
               ],
-	      [$_configure_metis_path/lib64/libGKlib.a -lm]
+	      [-lGKlib -lm]
             )
           ]
         )
