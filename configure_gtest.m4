@@ -15,6 +15,7 @@ AS_CASE($with_gtest,
     [gtest >= 1.13.0],
     [
       use_gtest=yes
+      HAVE_GETST=1
       AC_DEFINE([HAVE_GTEST],[1],[Defined to 1 if gtest is available])
       AC_MSG_NOTICE([HAVE_GTEST=$HAVE_GTEST])
       AC_MSG_NOTICE([GTEST_CFLAGS=$GTEST_CFLAGS])
