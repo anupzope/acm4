@@ -57,12 +57,12 @@ AS_IF(
       [test "x$_configure_parmetis_path" = "xauto"],
       [AC_PATH_PROGS(
         [_configure_parmetis_full_path],
-        [pm_parmetis pm_pometis pm_dglpart],
+        [pm_parmetis pm_pometis pm_dglpart parmetis pometis dglpart],
         [notfound]
       )],
       [AC_PATH_PROGS(
         [_configure_parmetis_full_path],
-        [pm_parmetis pm_pometis pm_dglpart],
+        [pm_parmetis pm_pometis pm_dglpart parmetis pometis dglpart],
         [notfound],
         [$_configure_parmetis_path]
       )]
@@ -98,13 +98,13 @@ AS_IF(
           [ParMETIS_V3_PartKway],
           [
             _configure_parmetis_library_found="yes"
-            PARMETIS_LIBS="-lparmetis -lGKlib -lm"
+            PARMETIS_LIBS="-lmetis -lparmetis -lm"
             PARMETIS_LDFLAGS="-L$_configure_parmetis_path/lib"
           ],
           [
             _configure_parmetis_library_found="no"
           ],
-	  [-lGKlib -lm]
+	  [-lmetis -lm]
         )
         
         AS_IF(
@@ -118,13 +118,13 @@ AS_IF(
               [ParMETIS_V3_PartKway],
               [
                 _configure_parmetis_library_found="yes"
-                PARMETIS_LIBS="-lparmetis -lGKlib -lm"
+                PARMETIS_LIBS="-lmetis -lparmetis -lm"
                 PARMETIS_LDFLAGS="-L$_configure_parmetis_path/lib"
               ],
               [
                 _configure_parmetis_library_found="no"
               ],
-	      [-lGKlib -lm]
+	      [-lmetis -lm]
             )
           ]
         )
