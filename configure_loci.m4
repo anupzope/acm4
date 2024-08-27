@@ -1,7 +1,6 @@
 AC_DEFUN([CONFIGURE_LOCI], [
 AC_PREREQ([2.50])
 
-AC_ARG_VAR([LOCI_INCLUDES],[Loci includes])
 AC_ARG_VAR([LOCI_LIBS],[Loci libraries])
 AC_ARG_VAR([LOCI_LDFLAGS],[Loci link flags])
 AC_ARG_VAR([LOCI_CXXFLAGS],[Loci C++ compilation flags])
@@ -11,7 +10,7 @@ AC_ARG_WITH(
 [loci],
 [
   AS_HELP_STRING(
-    [--with-loci=auto/yes/no/PATH],
+    [--with-loci=[auto/yes/no/PATH]],
     [compile with Loci support. Default: auto]
   )
 ],
@@ -19,24 +18,20 @@ AC_ARG_WITH(
 [with_loci=auto]
 )
 
-AS_CASE([$with_loci],
-  [no],
-  [
+AS_CASE($with_loci,
+  [no], [
     _configure_loci_req=no
     _configure_loci_path=no
   ],
-  [yes],
-  [
+  [yes], [
     _configure_loci_req=yes
     _configure_loci_path=auto
   ],
-  [auto],
-  [
+  [auto], [
     _configure_loci_req=auto
     _configure_loci_path=auto
   ],
-  [/*],
-  [
+  [/*], [
     _configure_loci_req=yes
     AS_IF(
       [test -z "$with_loci"],
@@ -50,13 +45,6 @@ AS_CASE([$with_loci],
   ]
 )
 
-_loci_found=no
-_loci_usable=no
-_loci_includes_found=no
-_loci_cxxflags_found=no
-_loci_cflags_found=no
-_loci_cppflags_found=no
-_loci_ldflags_found=no
 _configure_loci_library_found=no
 _configure_loci_header_found=no
 
@@ -69,167 +57,160 @@ AS_IF(
         AS_VAR_IF(
           [LOCI_BASE],
           [],
-          [_configure_loci_full_path="notfound"],
-          [_configure_loci_full_path="$LOCI_BASE"]
+          [
+            _configure_loci_full_path="notfound"
+            AC_MSG_ERROR([Environment variable LOCI_BASE not set])
+          ],
+          [
+            _configure_loci_full_path="$LOCI_BASE"
+          ]
         )
       ],
+      [_configure_loci_full_path="$_configure_loci_path"]
+    )
+
+    _configure_loci_conf_file="$_configure_loci_full_path/Loci.conf"
+    AC_CHECK_FILE(
+      [$_configure_loci_conf_file],
+      [],
       [
-        _configure_loci_full_path="$_configure_loci_path"
+        AC_MSG_ERROR([Loci installation not found at $_configure_loci_full_path])
+        _configure_loci_full_path="notfound"
       ]
     )
 
-    AS_IF(
-      [test "x$_configure_loci_full_path" = "xnotfound"],
-      [
-        AS_IF(
-          [test "x$_configure_loci_req" = "xyes"],
-          [AC_MSG_ERROR([Loci installation not found])],
-          [AC_MSG_WARN([Loci installation not found])]
-        )
-      ],
-      [
-        _configure_loci_path="$_configure_loci_full_path"
-	cat > LociDiscoveryMakefile <<EOF
-include $_configure_loci_path/Loci.conf
+    cat > Loci-discovery-Makefile <<EOF
+include $_configure_loci_full_path/Loci.conf
 
-print:
-	@echo "Valid targets 'print_includes' 'print_cflags' 'print_cxxflags' 'print_cppflags' 'print_ldflags'"
+print_COPT_FLAGS:
+	@echo \$(C_OPT)
 
-print_includes:
-	@echo "\$(LOCI_INCLUDES) \$(INCLUDES)"
+print_CXXOPT_FLAGS:
+	@echo \$(COPT)
 
-print_cflags:
-	@echo "\$(C_OPT) \$(LOCI_INCLUDES) \$(INCLUDES)"
+print_LOCI_INCLUDES:
+	@echo \$(LOCI_INCLUDES)
 
-print_cppflags:
-	@echo "\$(DEFINES)"
+print_INCLUDES:
+	@echo \$(INCLUDES)
 
-print_cxxflags:
-	@echo "\$(COPT) \$(EXCEPTIONS) \$(LOCI_INCLUDES) \$(INCLUDES)"
+print_DEFINES:
+	@echo \$(DEFINES)
 
-print_ldflags:
-	@echo "\$(LIBS)"
+print_LIBS:
+	@echo \$(LIBS)
 
-.PHONY: print print_includes print_cflags print_cppflags print_cxxflags print_ldflags
+.PHONY: print_COPT_FLAGS print_CXXOPT_FLAGS print_LOCI_INCLUDES print_INCLUDES print_DEFINES print_LIBS
 EOF
 
-        AC_MSG_CHECKING([for Loci INCLUDES, path: $_configure_loci_path])
-        AS_IF(
-          [make -f LociDiscoveryMakefile print_includes > LociINCLUDES.out 2> LociINCLUDES.err],
-          [
-            AC_MSG_RESULT([found])
-            LOCI_INCLUDES=`cat LociINCLUDES.out`
-            AC_MSG_NOTICE([Loci INCLUDES=$LOCI_INCLUDES])
-            _loci_includes_found=yes
-          ],
-          [
-            AC_MSG_RESULT([not found])
-          ]
-        )
-	
-        AC_MSG_CHECKING([for Loci CXXFLAGS, path: $_configure_loci_path])
-        AS_IF(
-          [make -f LociDiscoveryMakefile print_cxxflags > LociCXXFLAGS.out 2> LociCXXFLAGS.err],
-          [
-            AC_MSG_RESULT([found])
-            LOCI_CXXFLAGS=`cat LociCXXFLAGS.out`
-            AC_MSG_NOTICE([Loci CXXFLAGS=$LOCI_CXXFLAGS])
-            _loci_cxxflags_found=yes
-          ],
-          [
-            AC_MSG_RESULT([not found])
-          ]
-        )
-	
-        AC_MSG_CHECKING([for Loci CFLAGS, path: $_configure_loci_path])
-        AS_IF(
-          [make -f LociDiscoveryMakefile print_cflags > LociCFLAGS.out 2> LociCFLAGS.err],
-          [
-            AC_MSG_RESULT([found])
-            LOCI_CFLAGS=`cat LociCFLAGS.out`
-            AC_MSG_NOTICE([Loci CFLAGS=$LOCI_CFLAGS])
-            _loci_cflags_found=yes
-          ],
-          [
-            AC_MSG_RESULT([not found])
-          ]
-        )
-	
-        AC_MSG_CHECKING([for Loci CPPFLAGS, path: $_configure_loci_path])
-        AS_IF(
-          [make -f LociDiscoveryMakefile print_cppflags > LociCPPFLAGS.out 2> LociCPPFLAGS.err],
-          [
-            AC_MSG_RESULT([found])
-            LOCI_CPPFLAGS=`cat LociCPPFLAGS.out`
-            AC_MSG_NOTICE([Loci CPPFLAGS=$LOCI_CPPFLAGS])
-            _loci_cppflags_found=yes
-          ],
-          [
-            AC_MSG_RESULT([not found])
-          ]
-        )
-	
-        AC_MSG_CHECKING([for Loci LDFLAGS, path: $_configure_loci_path])
-        AS_IF(
-          [make -f LociDiscoveryMakefile print_ldflags > LociLDFLAGS.out 2> LociLDFLAGS.err],
-          [
-            AC_MSG_RESULT([found])
-            LOCI_LDFLAGS=`cat LociLDFLAGS.out`
-            AC_MSG_NOTICE([Loci LDFLAGS=$LOCI_LDFLAGS])
-            _loci_ldflags_found=yes
-          ],
-          [
-            AC_MSG_RESULT([not found])
-          ]
-        )
-
-        AS_IF(
-          [test "x$_loci_includes_found" = "xyes" && test "x$_loci_cxxflags_found" = "xyes" && test "x$_loci_cflags_found" = "xyes" && test "x$_loci_cppflags_found" = "xyes" && test "x$_loci_ldflags_found" = "xyes"],
-          [_loci_found=yes]
-        )
-      ]
-    )
-  ]
-)
-
-AS_IF(
-  [test "x$_loci_found" = "xyes"],
-  [
+    _LOCI_COPT_FLAGS=$(eval make -f Loci-discovery-Makefile print_COPT_FLAGS)
+    _LOCI_CXXOPT_FLAGS=$(eval make -f Loci-discovery-Makefile print_CXXOPT_FLAGS)
+    _LOCI_INCLUDES=$(eval make -f Loci-discovery-Makefile print_INCLUDES)
+    _LOCI_LOCI_INCLUDES=$(eval make -f Loci-discovery-Makefile print_LOCI_INCLUDES)
+    _LOCI_DEFINES=$(eval make -f Loci-discovery-Makefile print_DEFINES)
+    _LOCI_LIBS=$(eval make -f Loci-discovery-Makefile print_LIBS)
+    
+    AC_MSG_NOTICE([_LOCI_COPT_FLAGS=$_LOCI_COPT_FLAGS])
+    AC_MSG_NOTICE([_LOCI_CXXOPT_FLAGS=$_LOCI_CXXOPT_FLAGS])
+    AC_MSG_NOTICE([_LOCI_INCLUDES=$_LOCI_INCLUDES])
+    AC_MSG_NOTICE([_LOCI_LOCI_INCLUDES=$_LOCI_LOCI_INCLUDES])
+    AC_MSG_NOTICE([_LOCI_DEFINES=$_LOCI_DEFINES])
+    AC_MSG_NOTICE([_LOCI_LIBS=$_LOCI_LIBS])
+    
+    LOCI_LDFLAGS="$_LOCI_CXXOPT_FLAGS"
+    LOCI_LIBS="$_LOCI_LIBS"
+    LOCI_CXXFLAGS="$_LOCI_INCLUDES $_LOCI_LOCI_INCLUDES $_LOCI_CXXOPT_FLAGS"
+    LOCI_CPPFLAGS="$_LOCI_DEFINES"
+    
+    AC_MSG_NOTICE([LOCI_LDFLAGS=$LOCI_LDFLAGS])
+    AC_MSG_NOTICE([LOCI_LIBS=$LOCI_LIBS])
+    AC_MSG_NOTICE([LOCI_CXXFLAGS=$LOCI_CXXFLAGS])
+    AC_MSG_NOTICE([LOCI_CPPFLAGS=$LOCI_CPPFLAGS])
+    
     AC_LANG_PUSH([C++])
-
+    
+    save_CC="$CC"
+    save_CXX="$CXX"
+    save_LIBS="$LIBS"
     save_LDFLAGS="$LDFLAGS"
     save_CFLAGS="$CFLAGS"
     save_CXXFLAGS="$CXXFLAGS"
     save_CPPFLAGS="$CPPFLAGS"
-
-    LDFLAGS="$LDFLAGS $LOCI_LDFLAGS"
-    CFLAGS="$CFLAGS $LOCI_CFLAGS"
-    CXXFLAGS="$CXXFLAGS $LOCI_CXXFLAGS"
-    CPPFLAGS="$CPPFLAGS $LOCI_CPPFLAGS"
     
-    AC_MSG_CHECKING([for Loci usability])
+    CC="mpicc"
+    CXX="mpicxx"
+    LIBS="$LOCI_LIBS $save_LIBS"
+    LDFLAGS="$LOCI_LDFLAGS $save_LDFLAGS"
+    CFLAGS="$LOCI_CXXFLAGS $LOCI_DEFINES $CFLAGS"
+    CXXFLAGS="$LOCI_CXXFLAGS $LOCI_DEFINES $CXXFLAGS"
+    CPPFLAGS="$LOCI_CPPFLAGS $CPPFLAGS"
+    
+    AC_MSG_CHECKING([for Loci library usability])
     AC_LINK_IFELSE(
       [AC_LANG_PROGRAM([#include <Loci.h>],[Loci::Init(0, 0);])],
       [
         AC_MSG_RESULT([yes])
-        _loci_usable=yes
+        _configure_loci_library_found="yes"
       ],
       [
         AC_MSG_RESULT([no])
+        _configure_loci_library_found="no"
       ]
     )
-
+    
+    AC_CHECK_HEADER(
+      [Loci.h],
+      [_configure_loci_header_found="yes"],
+      [_configure_loci_header_found="no"],
+      [AC_INCLUDES_DEFAULT]
+    )
+    
+    CC="$save_CC"
+    CXX="$save_CXX"
+    LIBS="$save_LIBS"
     LDFLAGS="$save_LDFLAGS"
     CFLAGS="$save_CFLAGS"
     CXXFLAGS="$save_CXXFLAGS"
     CPPFLAGS="$save_CPPFLAGS"
-
+    
     AC_LANG_POP([C++])
-
-    AC_SUBST([LPP], [$_configure_loci_path/bin/lpp])
   ]
 )
 
-AM_CONDITIONAL([HAVE_LOCI],[test "x$_loci_usable" = "xyes"])
+dnl for automake use
+AM_CONDITIONAL([HAVE_LOCI],[test "x$_configure_loci_library_found" = "xyes" && test "x$_configure_loci_header_found" = "xyes"])
+
+AS_IF(
+  [test "x$_configure_loci_library_found" = "xyes" && test "x$_configure_loci_header_found" = "xyes"],
+  [
+    dnl for configure use
+    use_loci="yes"
+    
+    dnl for C preprocessor
+    AC_DEFINE([HAVE_LOCI], [1], [Defined if Loci library is detected.])
+    
+    dnl set LPP variable for use in Makefiles
+    AC_SUBST([LPP], [$_configure_loci_full_path/bin/lpp])
+  ],
+  [
+    dnl for configure use
+    use_loci="no"
+    
+    dnl reset
+    LOCI_LIBS=""
+    LOCI_LDFLAGS=""
+    LOCI_CXXFLAGS=""
+    LOCI_CPPFLAGS=""
+  ]
+)
+
+AS_IF(
+  [test "x$_configure_loci_req" = "xyes"],
+  [AS_IF([test "x$use_loci" = "xyes"],[],[AC_MSG_FAILURE([Loci requested, but not found])])],
+  [test "x$_configure_loci_req" = "xauto"],
+  [AS_IF([test "x$use_loci" = "xyes"],[],[AC_MSG_WARN([Loci not found, will not use Loci])])],
+  [test "x$_configure_loci_req" = "xno"],
+  [AC_MSG_NOTICE([Loci not requested])]
+)
 
 ])
