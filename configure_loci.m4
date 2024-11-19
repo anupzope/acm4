@@ -1,5 +1,7 @@
+dnl Loci is a C++ library.
+
 AC_DEFUN([CONFIGURE_LOCI], [
-AC_PREREQ([2.50])
+AC_PREREQ([2.69])
 
 AC_ARG_VAR([LOCI_LIBS],[Loci libraries])
 AC_ARG_VAR([LOCI_LDFLAGS],[Loci link flags])
