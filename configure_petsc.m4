@@ -96,25 +96,37 @@ AS_CASE(["$_petsc_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([petsc will be auto-discovered])
+  dnl AC_MSG_NOTICE([petsc will be auto-discovered])
 
   AS_IF([test -d "$PETSC_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $PETSC_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/include exists])
     PETSC_CFLAGS="-I$PETSC_DIR/include"
-  ], [AC_MSG_NOTICE([directory $PETSC_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$PETSC_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $PETSC_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/lib exists])
     PETSC_LDFLAGS="-L$PETSC_DIR/lib"
-  ], [AC_MSG_NOTICE([directory $PETSC_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$PETSC_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $PETSC_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/lib64 exists])
     PETSC_LDFLAGS="-L$PETSC_DIR/lib64"
-  ], [AC_MSG_NOTICE([directory $PETSC_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PETSC_DIR/lib64 does not exist])
+  ])
 
   PETSC_LIBS="-lpetsc"
 
@@ -122,25 +134,37 @@ AS_CASE(["$_petsc_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([petsc will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([petsc will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_petsc_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_petsc_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/include exists])
     PETSC_CFLAGS="-I$with_petsc_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_petsc_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_petsc_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_petsc_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/lib exists])
     PETSC_LDFLAGS="-L$with_petsc_dir/lib"
-  ], [AC_MSG_NOTICE([directory $with_petsc_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_petsc_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_petsc_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/lib64 exists])
     PETSC_LDFLAGS="-L$with_petsc_dir/lib64"
-  ], [AC_MSG_NOTICE([directory $with_petsc_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_petsc_dir/lib64 does not exist])
+  ])
 
   PETSC_LIBS="-lpetsc"
 
@@ -148,19 +172,27 @@ AS_CASE(["$_petsc_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([petsc will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([petsc will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_petsc_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_petsc_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_petsc_include_dir exists])
     PETSC_CFLAGS="-I$with_petsc_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_petsc_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_petsc_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_petsc_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_petsc_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_petsc_lib_dir exists])
     PETSC_LDFLAGS="-L$with_petsc_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_petsc_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_petsc_lib_dir does not exist])
+  ])
 
   PETSC_LIBS="$with_petsc_libs"
 
@@ -168,7 +200,7 @@ AS_CASE(["$_petsc_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([petsc will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([petsc will be discovered via pkg-config])
 
   _petsc_pkg_config_name="petsc"
   AS_IF([test "x$with_petsc_pkg_config" != "xyes"],[_petsc_pkg_config_name="$with_petsc_pkg_config"])
@@ -180,7 +212,7 @@ AS_CASE(["$_petsc_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([petsc will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([petsc will be discovered via environment variable flags])
   _try_compile_link_petsc_sample=yes
 ],
 [AC_MSG_ERROR([multiple configuration options for petsc: $_petsc_config_option])])
@@ -194,10 +226,10 @@ AS_IF([test "x$_try_compile_link_petsc_sample" == "xyes"],
   save_LDFLAGS="$LDFLAGS"
   save_LIBS="$LIBS"
 
-  CPPFLAGS="$PETSC_CPPFLAGS $with_petsc_additional_cppflags $CPPFLAGS"
-  CFLAGS="$PETSC_CFLAGS $with_petsc_additional_cflags $CFLAGS"
-  LDFLAGS="$PETSC_LDFLAGS $with_petsc_additional_ldflags $LDFLAGS"
-  LIBS="$PETSC_LIBS $with_petsc_additional_libs $LIBS"
+  CPPFLAGS="$PETSC_CPPFLAGS $with_petsc_additional_cppflags $MPI_CPPFLAGS $CPPFLAGS"
+  CFLAGS="$PETSC_CFLAGS $with_petsc_additional_cflags $MPI_CFLAGS $CFLAGS"
+  LDFLAGS="$PETSC_LDFLAGS $with_petsc_additional_ldflags $MPI_LDFLAGS $LDFLAGS"
+  LIBS="$PETSC_LIBS $with_petsc_additional_libs $MPI_LIBS $LIBS"
 
   AC_MSG_CHECKING([if petsc is usable])
   AC_LINK_IFELSE([AC_LANG_SOURCE([[
@@ -216,14 +248,14 @@ AS_IF([test "x$_try_compile_link_petsc_sample" == "xyes"],
 
     AC_DEFINE([HAVE_PETSC],[1],[defined to 1 if petsc is available])
 
-    AC_MSG_NOTICE([PETSC_CPPFLAGS=$PETSC_CPPFLAGS])
-    AC_MSG_NOTICE([PETSC_CFLAGS=$PETSC_CFLAGS])
-    AC_MSG_NOTICE([PETSC_LDFLAGS=$PETSC_LDFLAGS])
-    AC_MSG_NOTICE([PETSC_LIBS=$PETSC_LIBS])
+    dnl AC_MSG_NOTICE([PETSC_CPPFLAGS=$PETSC_CPPFLAGS])
+    dnl AC_MSG_NOTICE([PETSC_CFLAGS=$PETSC_CFLAGS])
+    dnl AC_MSG_NOTICE([PETSC_LDFLAGS=$PETSC_LDFLAGS])
+    dnl AC_MSG_NOTICE([PETSC_LIBS=$PETSC_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link with petsc using:
+    AC_MSG_ERROR([[Could not link with petsc using:
     PETSC_CPPFLAGS=$PETSC_CPPFLAGS
     PETSC_CFLAGS=$PETSC_CFLAGS
     PETSC_LDFLAGS=$PETSC_LDFLAGS

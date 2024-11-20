@@ -94,7 +94,7 @@ AS_CASE(["$_metis_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([metis will be auto-discovered])
+  dnl AC_MSG_NOTICE([metis will be auto-discovered])
 
   AS_IF([test -z "$METIS_DIR"],
   [
@@ -111,67 +111,99 @@ AS_CASE(["$_metis_config_option"],
 
   AS_IF([test -d "$METIS_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $METIS_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/include exists])
     METIS_CFLAGS="-I$METIS_DIR/include"
-  ], [AC_MSG_NOTICE([directory $METIS_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$METIS_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $METIS_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/lib exists])
     METIS_LDFLAGS="-L$METIS_DIR/lib"
     METIS_LIBS="-lmetis"
-  ], [AC_MSG_NOTICE([directory $METIS_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$METIS_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $METIS_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/lib64 exists])
     METIS_LDFLAGS="-L$METIS_DIR/lib64"
     METIS_LIBS="-lmetis"
-  ], [AC_MSG_NOTICE([directory $METIS_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $METIS_DIR/lib64 does not exist])
+  ])
 
   _try_compile_link_metis_sample=yes
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([metis will be discovered via specific installation prefix])
+  dnl AC_MSG_NOTICE([metis will be discovered via specific installation prefix])
 
   AS_IF([test -d "$with_metis_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_metis_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_metis_dir/include exists])
     METIS_CFLAGS="-I$with_metis_dir/include"
-  ], [AC_MSG_NOTICE([directory with_metis_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory with_metis_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_metis_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_metis_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_metis_dir/lib exists])
     METIS_LDFLAGS="-L$with_metis_dir/lib"
     METIS_LIBS="-lmetis"
-  ], [AC_MSG_NOTICE([directory $with_metis_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_metis_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_metis_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_metis_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_metis_dir/lib64 exists])
     METIS_LDFLAGS="-L$with_metis_dir/lib64"
     METIS_LIBS="-lmetis"
-  ], [AC_MSG_NOTICE([directory $with_metis_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_metis_dir/lib64 does not exist])
+  ])
 
   _try_compile_link_metis_sample=yes
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([metis will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([metis will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_metis_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_metis_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_metis_include_dir exists])
     METIS_CFLAGS="-I$with_metis_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_metis_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_metis_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_metis_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_metis_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_metis_lib_dir exists])
     METIS_LDFLAGS="-L$with_metis_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_metis_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_metis_lib_dir does not exist])
+  ])
 
   METIS_LIB="$with_metis_libs"
 
@@ -179,7 +211,7 @@ AS_CASE(["$_metis_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([metis will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([metis will be discovered via pkg-config])
 
   _metis_pkg_config_name="metis"
   AS_IF([test "x$with_metis_pkg_config" != "xyes"],[_metis_pkg_config_name=$with_metis_pkg_config])
@@ -191,7 +223,7 @@ AS_CASE(["$_metis_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([metis will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([metis will be discovered via environment variable flags])
   _try_compile_link_metis_sample=yes
 ],
 [AC_MSG_ERROR([multiple configuration options for metis: $_metis_config_option])])
@@ -239,14 +271,14 @@ AS_IF([test "x$_try_compile_link_metis_sample" == "xyes"],
 
     AC_DEFINE([HAVE_METIS],[1],[defined to 1 if metis is available])
 
-    AC_MSG_NOTICE([METIS_CPPFLAGS=$METIS_CPPFLAGS])
-    AC_MSG_NOTICE([METIS_CFLAGS=$METIS_CFLAGS])
-    AC_MSG_NOTICE([METIS_LDFLAGS=$METIS_LDFLAGS])
-    AC_MSG_NOTICE([METIS_LIBS=$METIS_LIBS])
+    dnl AC_MSG_NOTICE([METIS_CPPFLAGS=$METIS_CPPFLAGS])
+    dnl AC_MSG_NOTICE([METIS_CFLAGS=$METIS_CFLAGS])
+    dnl AC_MSG_NOTICE([METIS_LDFLAGS=$METIS_LDFLAGS])
+    dnl AC_MSG_NOTICE([METIS_LIBS=$METIS_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[could not link with metis using:
+    AC_MSG_ERROR([[could not link with metis using:
     METIS_CPPFLAGS=$METIS_CPPFLAGS
     METIS_CFLAGS=$METIS_CFLAGS
     METIS_LDFLAGS=$METIS_LDFLAGS

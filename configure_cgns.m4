@@ -94,7 +94,7 @@ AS_CASE(["$_cgns_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([cgns will be auto-discovered])
+  dnl AC_MSG_NOTICE([cgns will be auto-discovered])
 
   AS_IF([test -z "$CGNS_DIR"],
   [
@@ -111,22 +111,34 @@ AS_CASE(["$_cgns_config_option"],
 
   AS_IF([test -d "$CGNS_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $CGNS_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/include exists])
     CGNS_CFLAGS="-I$CGNS_DIR/include"
-  ], [AC_MSG_NOTICE([directory $CGNS_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$CGNS_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $CGNS_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/lib exists])
     CGNS_LDFLAGS="-L$CGNS_DIR/lib"
     CGNS_LIBS="-lcgns"
-  ], [AC_MSG_NOTICE([directory $CGNS_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$CGNS_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $CGNS_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/lib64 exists])
     CGNS_LDFLAGS="-L$CGNS_DIR/lib64"
-  ], [AC_MSG_NOTICE([directory $CGNS_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $CGNS_DIR/lib64 does not exist])
+  ])
 
   CGNS_LIBS="-lcgns"
 
@@ -134,25 +146,37 @@ AS_CASE(["$_cgns_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([cgns will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([cgns will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_cgns_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_cgns_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/include exists])
     CGNS_CFLAGS="-I$with_cgns_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_cgns_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_cgns_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_cgns_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/lib exists])
     CGNS_LDFLAGS="-L$with_cgns_dir/lib"
-  ], [AC_MSG_NOTICE([directory $with_cgns_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_cgns_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_cgns_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/lib64 exists])
     CGNS_LDFLAGS="-L$with_cgns_dir/lib64"
-  ], [AC_MSG_NOTICE([directory $with_cgns_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_cgns_dir/lib64 does not exist])
+  ])
 
   CGNS_LIBS="-lcgns"
 
@@ -160,19 +184,27 @@ AS_CASE(["$_cgns_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([cgns will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([cgns will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_cgns_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_cgns_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_cgns_include_dir exists])
     CGNS_CFLAGS="-I$with_cgns_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_cgns_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_cgns_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_cgns_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_cgns_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_cgns_lib_dir exists])
     CGNS_LDFLAGS="-L$with_cgns_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_cgns_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_cgns_lib_dir does not exist])
+  ])
 
   CGNS_LIBS="$with_cgns_libs"
 
@@ -180,7 +212,7 @@ AS_CASE(["$_cgns_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([cgns will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([cgns will be discovered via pkg-config])
 
   _cgns_pkg_config_name="libcgns"
   AS_IF([test "x$with_cgns_pkg_config" != "xyes"],[_cgns_pkg_config_name=$with_cgns_pkg_config])
@@ -192,7 +224,7 @@ AS_CASE(["$_cgns_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([cgns will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([cgns will be discovered via environment variable flags])
   _try_compile_link_cgns_sample=yes
 ],
 [AC_MSG_ERROR([multiple configuration options for cgns: $_cgns_config_option])]
@@ -230,14 +262,14 @@ AS_IF([test "x$_try_compile_link_cgns_sample" == "xyes"],
 
     AC_DEFINE([HAVE_CGNS],[1],[defined to 1 if cgns is available])
 
-    AC_MSG_NOTICE([CGNS_CPPFLAGS=$CGNS_CPPFLAGS])
-    AC_MSG_NOTICE([CGNS_CFLAGS=$CGNS_CFLAGS])
-    AC_MSG_NOTICE([CGNS_LDFLAGS=$CGNS_LDFLAGS])
-    AC_MSG_NOTICE([CGNS_LIBS=$CGNS_LIBS])
+    dnl AC_MSG_NOTICE([CGNS_CPPFLAGS=$CGNS_CPPFLAGS])
+    dnl AC_MSG_NOTICE([CGNS_CFLAGS=$CGNS_CFLAGS])
+    dnl AC_MSG_NOTICE([CGNS_LDFLAGS=$CGNS_LDFLAGS])
+    dnl AC_MSG_NOTICE([CGNS_LIBS=$CGNS_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link with cgns using:
+    AC_MSG_ERROR([[Could not link with cgns using:
     CGNS_CPPFLAGS=$CGNS_CPPFLAGS
     CGNS_CFLAGS=$CGNS_CFLAGS
     CGNS_LDFLAGS=$CGNS_LDFLAGS

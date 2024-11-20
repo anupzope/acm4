@@ -104,25 +104,37 @@ AS_CASE(["$_glog_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([glog will be auto-discovered])
+  dnl AC_MSG_NOTICE([glog will be auto-discovered])
 
   AS_IF([test -d "$GLOG_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $GLOG_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/include exists])
     GLOG_CXXFLAGS="-I$GLOG_DIR/include"
-  ], [AC_MSG_NOTICE([directory $GLOG_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$GLOG_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $GLOG_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/lib exists])
     GLOG_LDFLAGS="-L$GLOG_DIR/lib"
-  ],[AC_MSG_NOTICE([directory $GLOG_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$GLOG_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $GLOG_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/lib64 exists])
     GLOG_LDFLAGS="-L$GLOG_DIR/lib64"
-  ],[AC_MSG_NOTICE([directory $GLOG_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GLOG_DIR/lib64 does not exist])
+  ])
 
   GLOG_LIBS="-lglog"
 
@@ -130,25 +142,37 @@ AS_CASE(["$_glog_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([glog will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([glog will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_glog_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_glog_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/include exists])
     GLOG_CXXFLAGS="-I$with_glog_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_glog_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_glog_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_glog_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/lib exists])
     GLOG_LDFLAGS="-L$with_glog_dir/lib"
-  ],[AC_MSG_NOTICE([directory $with_glog_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_glog_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_glog_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/lib64 exists])
     GLOG_LDFLAGS="-L$with_glog_dir/lib64"
-  ],[AC_MSG_NOTICE([directory $with_glog_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_glog_dir/lib64 does not exist])
+  ])
 
   GLOG_LIBS="-lglog"
 
@@ -156,21 +180,27 @@ AS_CASE(["$_glog_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([glog will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([glog will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_glog_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_glog_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_glog_include_dir exists])
     GLOG_CXXFLAGS="-I$with_glog_include_dir"
   ],
-  [AC_MSG_NOTICE([directory $with_glog_include_dir does not exist])])
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_glog_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_glog_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_glog_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_glog_lib_dir exists])
     GLOG_LDFLAGS="-L$with_glog_lib_dir"
   ],
-  [AC_MSG_NOTICE([directory $with_glog_lib_dir does not exist])])
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_glog_lib_dir does not exist])
+  ])
 
   GLOG_LIBS="-lglog"
 
@@ -178,7 +208,7 @@ AS_CASE(["$_glog_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([glog will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([glog will be discovered via pkg-config])
 
   _glog_pkg_config_name="libglog"
   AS_IF([test "x$with_glog_pkg_config" != "xyes"],[_glog_pkg_config_name=$with_glog_pkg_config])
@@ -192,8 +222,7 @@ AS_CASE(["$_glog_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([glog will be discovered via environment variable flags])
-
+  dnl AC_MSG_NOTICE([glog will be discovered via environment variable flags])
   _try_compile_link_glog_sample=yes
 ]
 [AC_MSG_ERROR([multiple configuration options for glog: $_glog_config_option])]
@@ -230,14 +259,14 @@ AS_IF([test "x$_try_compile_link_glog_sample" == "xyes"],
 
     AC_DEFINE([HAVE_GLOG],[1],[defined to 1 if glog is available])
 
-    AC_MSG_NOTICE([GLOG_CPPFLAGS=$GLOG_CPPFLAGS])
-    AC_MSG_NOTICE([GLOG_CXXFLAGS=$GLOG_CXXFLAGS])
-    AC_MSG_NOTICE([GLOG_LDFLAGS=$GLOG_LDFLAGS])
-    AC_MSG_NOTICE([GLOG_LIBS=$GLOG_LIBS])
+    dnl AC_MSG_NOTICE([GLOG_CPPFLAGS=$GLOG_CPPFLAGS])
+    dnl AC_MSG_NOTICE([GLOG_CXXFLAGS=$GLOG_CXXFLAGS])
+    dnl AC_MSG_NOTICE([GLOG_LDFLAGS=$GLOG_LDFLAGS])
+    dnl AC_MSG_NOTICE([GLOG_LIBS=$GLOG_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link with glog using:
+    AC_MSG_ERROR([[Could not link with glog using:
     GLOG_CPPFLAGS=$GLOG_CPPFLAGS
     GLOG_CXXFLAGS=$GLOG_CXXFLAGS
     GLOG_LDFLAGS=$GLOG_LDFLAGS

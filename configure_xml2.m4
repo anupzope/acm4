@@ -92,7 +92,7 @@ AS_CASE(["$_xml2_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([xml2 will be auto-discovered])
+  dnl AC_MSG_NOTICE([xml2 will be auto-discovered])
 
   AS_IF([test -z "$XML2_DIR"],
   [
@@ -109,21 +109,33 @@ AS_CASE(["$_xml2_config_option"],
 
   AS_IF([test -d "$XML2_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $XML2_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/include exists])
     XML2_CFLAGS="-I$XML2_DIR/include"
-  ], [AC_MSG_NOTICE([directory $XML2_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$XML2_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $XML2_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/lib exists])
     XML2_LDFLAGS="-L$XML2_DIR/lib"
-  ], [AC_MSG_NOTICE([directory $XML2_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$XML2_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $XML2_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/lib64 exists])
     XML2_LDFLAGS="-L$XML2_DIR/lib64"
-  ], [AC_MSG_NOTICE([directory $XML2_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $XML2_DIR/lib64 does not exist])
+  ])
 
   XML2_LIBS="-lxml2"
 
@@ -131,25 +143,37 @@ AS_CASE(["$_xml2_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([xml2 will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([xml2 will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_xml2_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_xml2_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/include exists])
     XML2_CFLAGS="-I$with_xml2_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_xml2_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_xml2_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_xml2_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/lib exists])
     XML2_LDFLAGS="-L$with_xml2_dir/lib"
-  ], [AC_MSG_NOTICE([directory $with_xml2_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_xml2_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_xml2_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/lib64 exists])
     XML2_LDFLAGS="-L$with_xml2_dir/lib64"
-  ], [AC_MSG_NOTICE([directory $with_xml2_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_xml2_dir/lib64 does not exist])
+  ])
 
   XML2_LIBS="-lxml2"
 
@@ -157,19 +181,27 @@ AS_CASE(["$_xml2_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([xml2 will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([xml2 will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_xml2_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_xml2_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_xml2_include_dir exists])
     XML2_CFLAGS="-I$with_xml2_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_xml2_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_xml2_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_xml2_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_xml2_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_xml2_lib_dir exists])
     XML2_LDFLAGS="-L$with_xml2_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_xml2_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_xml2_lib_dir does not exist])
+  ])
 
   XML2_LIBS="$with_xml2_libs"
 
@@ -177,7 +209,7 @@ AS_CASE(["$_xml2_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([xml2 will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([xml2 will be discovered via pkg-config])
 
   _xml2_pkg_config_name="libxml-2.0"
   AS_IF([test "x$with_xml2_pkg_config" != "xyes"],[_xml2_pkg_config_name=$with_xml2_pkg_config])
@@ -189,7 +221,7 @@ AS_CASE(["$_xml2_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([xml2 will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([xml2 will be discovered via environment variable flags])
 
   _try_compile_link_xml2_sample=yes
 ],
@@ -224,14 +256,14 @@ AS_IF([test "x$_try_compile_link_xml2_sample" == "xyes"],
 
     AC_DEFINE([HAVE_XML2],[1],[defined to 1 if xml2 is available])
 
-    AC_MSG_NOTICE([XML2_CPPFLAGS=$XML2_CPPFLAGS])
-    AC_MSG_NOTICE([XML2_CFLAGS=$XML2_CFLAGS])
-    AC_MSG_NOTICE([XML2_LDFLAGS=$XML2_LDFLAGS])
-    AC_MSG_NOTICE([XML2_LIBS=$XML2_LIBS])
+    dnl AC_MSG_NOTICE([XML2_CPPFLAGS=$XML2_CPPFLAGS])
+    dnl AC_MSG_NOTICE([XML2_CFLAGS=$XML2_CFLAGS])
+    dnl AC_MSG_NOTICE([XML2_LDFLAGS=$XML2_LDFLAGS])
+    dnl AC_MSG_NOTICE([XML2_LIBS=$XML2_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link xml2 with:
+    AC_MSG_ERROR([[Could not link xml2 with:
     XML2_CPPFLAGS=$XML2_CPPFLAGS
     XML2_CFLAGS=$XML2_CFLAGS
     XML2_LDFLAGS=$XML2_LDFLAGS

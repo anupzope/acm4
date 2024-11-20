@@ -15,12 +15,6 @@ AC_ARG_WITH([parmetis],
 [],
 [with_parmetis=auto])
 
-AC_ARG_WITH([parmetis-dependencies],
-[AS_HELP_STRING([--with-parmetis-dependencies=SS_STRING],
-  [Option to specify dependencies of parmetis.])],
-[],
-[with_parmetis_dependencies=""])
-
 AC_ARG_WITH([parmetis-dir],
 [AS_HELP_STRING([--with-parmetis-dir=DIR],
   [Option to enable parmetis discovery from specific installation prefix.])]
@@ -100,7 +94,7 @@ AS_CASE(["$_parmetis_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([parmetis will be auto-discovered])
+  dnl AC_MSG_NOTICE([parmetis will be auto-discovered])
 
   AS_IF([test -z "$PARMETIS_DIR"],
   [
@@ -117,67 +111,99 @@ AS_CASE(["$_parmetis_config_option"],
 
   AS_IF([test -d "$PARMETIS_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $PARMETIS_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/include exists])
     PARMETIS_CFLAGS="-I$PARMETIS_DIR/include"
-  ], [AC_MSG_NOTICE([directory $PARMETIS_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$PARMETIS_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $PARMETIS_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/lib exists])
     PARMETIS_LDFLAGS="-L$PARMETIS_DIR/lib"
     PARMETIS_LIBS="-lparmetis"
-  ], [AC_MSG_NOTICE([directory $PARMETIS_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$PARMETIS_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $PARMETIS_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/lib64 exists])
     PARMETIS_LDFLAGS="-L$PARMETIS_DIR/lib64"
     PARMETIS_LIBS="-lparmetis"
-  ], [AC_MSG_NOTICE([directory $PARMETIS_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $PARMETIS_DIR/lib64 does not exist])
+  ])
 
   _try_compile_link_parmetis_sample=yes
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([parmetis will be discovered via specific installation prefix])
+  dnl AC_MSG_NOTICE([parmetis will be discovered via specific installation prefix])
 
   AS_IF([test -d "$with_parmetis_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_parmetis_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/include exists])
     PARMETIS_CFLAGS="-I$with_parmetis_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_parmetis_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_parmetis_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_parmetis_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/lib exists])
     PARMETIS_LDFLAGS="-L$with_parmetis_dir/lib"
     PARMETIS_LIBS="-lparmetis"
-  ], [AC_MSG_NOTICE([directory $with_parmetis_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_parmetis_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_parmetis_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/lib64 exists])
     PARMETIS_LDFLAGS="-L$with_parmetis_dir/lib64"
     PARMETIS_LIBS="-lparmetis"
-  ], [AC_MSG_NOTICE([directory $with_parmetis_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_parmetis_dir/lib64 does not exist])
+  ])
 
   _try_compile_link_parmetis_sample=yes
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([parmetis will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([parmetis will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_parmetis_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_parmetis_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_parmetis_include_dir exists])
     PARMETS_CFLAGS="-I$with_parmetis_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_parmetis_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_parmetis_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_parmetis_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_parmetis_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_parmetis_lib_dir exists])
     PARMETIS_LDFLAGS="-L$with_parmetis_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_parmetis_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_parmetis_lib_dir does not exist])
+  ])
 
   PARMETIS_LIBS="$with_parmetis_libs"
 
@@ -185,7 +211,7 @@ AS_CASE(["$_parmetis_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([parmetis will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([parmetis will be discovered via pkg-config])
 
   _parmetis_pkg_config_name="parmetis"
   AS_IF([test "x$with_parmetis_pkg_config" != xyes],[_parmetis_pkg_config_name=$with_parmetis_pkg_config])
@@ -197,26 +223,15 @@ AS_CASE(["$_parmetis_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([parmetis will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([parmetis will be discovered via environment variable flags])
   _try_compile_link_parmetis_sample=yes
 ],
 [AC_MSG_ERROR([multiple configuration options for parmetis: $_parmetis_config_option])]
 )
 
-dnl m4_define([_parmetis_deps],m4_dquote(m4_split(["$with_parmetis_dependencies"])))
+AS_IF([test "x$have_mpi" != "xyes"],[AC_MSG_ERROR([MPI is required for parmetis])])
 
-dnl _parmetis_dep_counter="1"
-dnl m4_foreach_w([_parmetis_dep],[_parmetis_deps],[
-dnl   AC_MSG_NOTICE([$_parmetis_dep_counter=_parmetis_dep])
-dnl   _parmetis_dep_counter="1$_parmetis_dep_counter"
-dnl ])
-
-dnl _parmetis_deps=m4_split($with_parmetis_dependencies)
-dnl AC_MSG_ERROR($with_parmetis_dependencies)
-dnl m4_foreach(_parmetis_dep,_parmetis_deps,[
-dnl   AC_MSG_NOTICE(_parmetis_dep)
-dnl ])
-dnl AC_MSG_ERROR([])
+AS_IF([test "x$have_metis" != "xyes"],[AC_MSG_ERROR([METIS is required for parmetis])])
 
 AS_IF([test "x$_try_compile_link_parmetis_sample" == "xyes"],
 [
@@ -227,10 +242,10 @@ AS_IF([test "x$_try_compile_link_parmetis_sample" == "xyes"],
   save_LDFLAGS="$LDFLAGS"
   save_LIBS="$LIBS"
 
-  CPPFLAGS="$PARMETIS_CPPFLAGS $with_parmetis_additional_cppflags $CPPFLAGS"
-  CFLAGS="$PARMETIS_CFLAGS $with_parmetis_additional_cflags $CFLAGS"
-  LDFLAGS="$PARMETIS_LDFLAGS $with_parmetis_additional_ldflags $LDFLAGS"
-  LIBS="$PARMETIS_LIBS $with_parmetis_additional_libs $LIBS"
+  CPPFLAGS="$PARMETIS_CPPFLAGS $with_parmetis_additional_cppflags $MPI_CPPFLAGS $METIS_CPPFLAGS $CPPFLAGS"
+  CFLAGS="$PARMETIS_CFLAGS $with_parmetis_additional_cflags $MPI_CFLAGS $METIS_CFLAGS $CFLAGS"
+  LDFLAGS="$PARMETIS_LDFLAGS $with_parmetis_additional_ldflags $MPI_LDFLAGS $METIS_LDFLAGS $LDFLAGS"
+  LIBS="$PARMETIS_LIBS $with_parmetis_additional_libs $MPI_LIBS $METIS_LIBS $LIBS"
 
   AC_MSG_CHECKING([if parmetis is usable])
   AC_LINK_IFELSE([AC_LANG_SOURCE([[
@@ -267,14 +282,14 @@ AS_IF([test "x$_try_compile_link_parmetis_sample" == "xyes"],
 
     AC_DEFINE([HAVE_PARMETIS],[1],[defined to 1 if parmetis is available])
 
-    AC_MSG_NOTICE([PARMETIS_CPPFLAGS=$PARMETIS_CPPFLAGS])
-    AC_MSG_NOTICE([PARMETIS_CFLAGS=$PARMETIS_CFLAGS])
-    AC_MSG_NOTICE([PARMETIS_LDFLAGS=$PARMETIS_LDFLAGS])
-    AC_MSG_NOTICE([PARMETIS_LIBS=$PARMETIS_LIBS])
+    dnl AC_MSG_NOTICE([PARMETIS_CPPFLAGS=$PARMETIS_CPPFLAGS])
+    dnl AC_MSG_NOTICE([PARMETIS_CFLAGS=$PARMETIS_CFLAGS])
+    dnl AC_MSG_NOTICE([PARMETIS_LDFLAGS=$PARMETIS_LDFLAGS])
+    dnl AC_MSG_NOTICE([PARMETIS_LIBS=$PARMETIS_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[could not link with parmetis using:
+    AC_MSG_ERROR([[could not link with parmetis using:
     PARMETIS_CPPFLAGS=$PARMETIS_CPPFLAGS
     PARMETIS_CFLAGS=$PARMETIS_CFLAGS
     PARMETIS_LDFLAGS=$PARMETIS_LDFLAGS

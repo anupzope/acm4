@@ -94,25 +94,37 @@ AS_CASE(["$_gtest_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([gtest will be auto-discovered])
+  dnl AC_MSG_NOTICE([gtest will be auto-discovered])
 
   AS_IF([test -d "$GTEST_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $GTEST_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/include exists])
     GTEST_CXXFLAGS="-I$GTEST_DIR/include"
-  ], [AC_MSG_NOTICE([directory $GTEST_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$GTEST_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $GTEST_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/lib exists])
     GTEST_LDFLAGS="-L$GTEST_DIR/lib"
-  ], [AC_MSG_NOTICE([directory $GTEST_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/lib does not exist])
+  ])
 
   AS_IF([test -d "$GTEST_DIR/lib64"],
   [
-    AC_MSG_NOTICE([directory $GTEST_DIR/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/lib64 exists])
     GTEST_LDFLAGS="-L$GTEST_DIR/lib64"
-  ], [AC_MSG_NOTICE([directory $GTEST_DIR/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $GTEST_DIR/lib64 does not exist])
+  ])
 
   GTEST_LIBS="-lgtest"
 
@@ -120,25 +132,37 @@ AS_CASE(["$_gtest_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([gtest will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([gtest will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_gtest_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_gtest_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/include exists])
     GTEST_CXXFLAGS="-I$with_gtest_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_gtest_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_gtest_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_gtest_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/lib exists])
     GTEST_LDFLAGS="-L$with_gtest_dir/lib"
-  ], [AC_MSG_NOTICE([directory $with_gtest_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/lib does not exist])
+  ])
 
   AS_IF([test -d "$with_gtest_dir/lib64"],
   [
-    AC_MSG_NOTICE([directory $with_gtest_dir/lib64 exists])
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/lib64 exists])
     GTEST_LDFLAGS="-L$with_gtest_dir/lib64"
-  ], [AC_MSG_NOTICE([directory $with_gtest_dir/lib64 does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_gtest_dir/lib64 does not exist])
+  ])
 
   GTEST_LIBS="-lgtest"
 
@@ -146,19 +170,27 @@ AS_CASE(["$_gtest_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([gtest will be discovered via specified include and lib directories])
+  dnl AC_MSG_NOTICE([gtest will be discovered via specified include and lib directories])
 
   AS_IF([test -d "$with_gtest_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_gtest_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_gtest_include_dir exists])
     GTEST_CXXFLAGS="-I$with_gtest_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_gtest_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_gtest_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_gtest_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_gtest_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_gtest_lib_dir exists])
     GTEST_LDFLAGS="-I$with_gtest_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_gtest_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_gtest_lib_dir does not exist])
+  ])
 
   GTEST_LIBS="$with_gtest_libs"
 
@@ -166,7 +198,7 @@ AS_CASE(["$_gtest_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([gtest will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([gtest will be discovered via pkg-config])
 
   _gtest_pkg_config_name="gtest"
   AS_IF([test "$with_gtest_pkg_config" != "xyes"],[_gtest_pkg_config_name="$with_gtest_pkg_config"])
@@ -180,8 +212,7 @@ AS_CASE(["$_gtest_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([gtest will be discovered via environment variable flags])
-
+  dnl AC_MSG_NOTICE([gtest will be discovered via environment variable flags])
   _try_compile_link_gtest_sample=yes
 ],
 [AC_MSG_ERROR([multiple configuration options for gtest: $_gtest_config_option])]
@@ -217,14 +248,14 @@ AS_IF([test "x$_try_compile_link_gtest_sample" == "xyes"],
 
     AC_DEFINE([HAVE_GTEST],[1],[defined to 1 if gtest is available])
 
-    AC_MSG_NOTICE([GTEST_CPPFLAGS=$GTEST_CPPFLAGS])
-    AC_MSG_NOTICE([GTEST_CXXFLAGS=$GTEST_CXXFLAGS])
-    AC_MSG_NOTICE([GTEST_LDFLAGS=$GTEST_LDFLAGS])
-    AC_MSG_NOTICE([GTEST_LIBS=$GTEST_LIBS])
+    dnl AC_MSG_NOTICE([GTEST_CPPFLAGS=$GTEST_CPPFLAGS])
+    dnl AC_MSG_NOTICE([GTEST_CXXFLAGS=$GTEST_CXXFLAGS])
+    dnl AC_MSG_NOTICE([GTEST_LDFLAGS=$GTEST_LDFLAGS])
+    dnl AC_MSG_NOTICE([GTEST_LIBS=$GTEST_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link with gtest using:
+    AC_MSG_ERROR([[Could not link with gtest using:
     GTEST_CPPFLAGS=$GTEST_CPPFLAGS
     GTEST_CXXFLAGS=$GTEST_CXXFLAGS
     GTEST_LDFLAGS=$GTEST_LDFLAGS

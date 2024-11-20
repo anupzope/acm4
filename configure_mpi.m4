@@ -92,7 +92,7 @@ AS_CASE(["$_mpi_config_option"],
 ],
 ["AutoOption"],
 [
-  AC_MSG_NOTICE([mpi will be auto-discovered])
+  dnl AC_MSG_NOTICE([mpi will be auto-discovered])
 
   AS_IF([test -z "$MPI_DIR"],
   [
@@ -109,15 +109,23 @@ AS_CASE(["$_mpi_config_option"],
 
   AS_IF([test -d "$MPI_DIR/include"],
   [
-    AC_MSG_NOTICE([directory $MPI_DIR/include exists])
+    dnl AC_MSG_NOTICE([directory $MPI_DIR/include exists])
     MPI_CFLAGS="-I$MPI_DIR/include"
-  ], [AC_MSG_NOTICE([directory $MPI_DIR/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $MPI_DIR/include does not exist])
+  ])
 
   AS_IF([test -d "$MPI_DIR/lib"],
   [
-    AC_MSG_NOTICE([directory $MPI_DIR/lib exists])
+    dnl AC_MSG_NOTICE([directory $MPI_DIR/lib exists])
     MPI_LDFLAGS="-L$MPI_DIR/lib"
-  ], [AC_MSG_NOTICE([directory $MPI_DIR/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $MPI_DIR/lib does not exist])
+  ])
 
   MPI_LIBS="-lmpi"
 
@@ -125,19 +133,27 @@ AS_CASE(["$_mpi_config_option"],
 ],
 ["DirOption"],
 [
-  AC_MSG_NOTICE([mpi will be discovered via specified installation prefix])
+  dnl AC_MSG_NOTICE([mpi will be discovered via specified installation prefix])
 
   AS_IF([test -d "$with_mpi_dir/include"],
   [
-    AC_MSG_NOTICE([directory $with_mpi_dir/include exists])
+    dnl AC_MSG_NOTICE([directory $with_mpi_dir/include exists])
     MPI_CFLAGS="-I$with_mpi_dir/include"
-  ], [AC_MSG_NOTICE([directory $with_mpi_dir/include does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_mpi_dir/include does not exist])
+  ])
 
   AS_IF([test -d "$with_mpi_dir/lib"],
   [
-    AC_MSG_NOTICE([directory $with_mpi_dir/lib exists])
+    dnl AC_MSG_NOTICE([directory $with_mpi_dir/lib exists])
     MPI_LDFLAGS="-L$with_mpi_dir/lib"
-  ], [AC_MSG_NOTICE([directory $with_mpi_dir/lib does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_mpi_dir/lib does not exist])
+  ])
 
   MPI_LIBS="-lmpi"
 
@@ -145,19 +161,27 @@ AS_CASE(["$_mpi_config_option"],
 ],
 ["ILDirOption"],
 [
-  AC_MSG_NOTICE([mpi will be discovered via include and lib directories])
+  dnl AC_MSG_NOTICE([mpi will be discovered via include and lib directories])
 
   AS_IF([test -d "$with_mpi_include_dir"],
   [
-    AC_MSG_NOTICE([directory $with_mpi_include_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_mpi_include_dir exists])
     MPI_CFLAGS="-I$with_mpi_include_dir"
-  ], [AC_MSG_NOTICE([directory $with_mpi_include_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_mpi_include_dir does not exist])
+  ])
 
   AS_IF([test -d "$with_mpi_lib_dir"],
   [
-    AC_MSG_NOTICE([directory $with_mpi_lib_dir exists])
+    dnl AC_MSG_NOTICE([directory $with_mpi_lib_dir exists])
     MPI_LDFLAGS="-L$with_mpi_lib_dir"
-  ], [AC_MSG_NOTICE([directory $with_mpi_lib_dir does not exist])])
+  ],
+  [
+    :
+    dnl AC_MSG_NOTICE([directory $with_mpi_lib_dir does not exist])
+  ])
 
   MPI_LIBS="$with_mpi_libs"
 
@@ -165,7 +189,7 @@ AS_CASE(["$_mpi_config_option"],
 ],
 ["PkgConfigOption"],
 [
-  AC_MSG_NOTICE([mpi will be discovered via pkg-config])
+  dnl AC_MSG_NOTICE([mpi will be discovered via pkg-config])
 
   _mpi_pkg_config_name="mpi"
   AS_IF([test "x$with_mpi_pkg_config" != "xyes"],[_mpi_pkg_config_name="$with_mpi_pkg_config"])
@@ -177,7 +201,7 @@ AS_CASE(["$_mpi_config_option"],
 ],
 ["FlagsOption"],
 [
-  AC_MSG_NOTICE([mpi will be discovered via environment variable flags])
+  dnl AC_MSG_NOTICE([mpi will be discovered via environment variable flags])
   _try_compile_link_mpi_sample=yes
 ],
 [AC_MSG_ERROR([multiple cinfiguration options for mpi: $_mpi_config_option])]
@@ -201,7 +225,7 @@ AS_IF([test "x$_try_compile_link_mpi_sample" == "xyes"],
   AC_LINK_IFELSE([AC_LANG_SOURCE([[
   #include <mpi.h>
   int main(int argc, char * argv[]) {
-    MPI_Init(argc, argv);
+    MPI_Init(&argc, &argv);
     return MPI_Finalize();
   }
   ]])],
@@ -213,14 +237,14 @@ AS_IF([test "x$_try_compile_link_mpi_sample" == "xyes"],
 
     AC_DEFINE([HAVE_MPI],[1],[defined to 1 if mpi is available])
 
-    AC_MSG_NOTICE([MPI_CPPFLAGS=$MPI_CPPFLAGS])
-    AC_MSG_NOTICE([MPI_CFLAGS=$MPI_CFLAGS])
-    AC_MSG_NOTICE([MPI_LDFLAGS=$MPI_LDFLAGS])
-    AC_MSG_NOTICE([MPI_LIBS=$MPI_LIBS])
+    dnl AC_MSG_NOTICE([MPI_CPPFLAGS=$MPI_CPPFLAGS])
+    dnl AC_MSG_NOTICE([MPI_CFLAGS=$MPI_CFLAGS])
+    dnl AC_MSG_NOTICE([MPI_LDFLAGS=$MPI_LDFLAGS])
+    dnl AC_MSG_NOTICE([MPI_LIBS=$MPI_LIBS])
   ],
   [
     AC_MSG_RESULT([no])
-    AC_MSG_FAILURE([[Could not link with mpi using:
+    AC_MSG_ERROR([[Could not link with mpi using:
     MPI_CPPFLAGS=$MPI_CPPFLAGS
     MPI_CFLAGS=$MPI_CFLAGS
     MPI_LDFLAGS=$MPI_LDFLAGS
