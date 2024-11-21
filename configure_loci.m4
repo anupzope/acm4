@@ -185,7 +185,7 @@ AS_CASE(["$_loci_config_option"],
   AS_IF([test -d "$with_loci_dir/lib"],
   [
     dnl AC_MSG_NOTICE([directory $with_loci_dir/lib exists])
-    HDF5_LDFLAGS="-L$with_loci_dir/lib"
+    LOCI_LDFLAGS="-L$with_loci_dir/lib"
   ],
   [
     :
@@ -195,7 +195,7 @@ AS_CASE(["$_loci_config_option"],
   AS_IF([test -d "$with_loci_dir/lib64"],
   [
     dnl AC_MSG_NOTICE([directory $with_loci_dir/lib64 exists])
-    HDF5_LDFLAGS="-L$with_loci_dir/lib64"
+    LOCI_LDFLAGS="-L$with_loci_dir/lib64"
   ],
   [
     :
@@ -319,6 +319,22 @@ AS_IF([test "x$_try_compile_link_loci_sample" == "xyes"],
     LIBS="$PETSC_LIBS $LIBS"
   ])
 
+  AS_IF([test "x$have_metis" == "xyes"],
+  [
+    CPPFLAGS="$METIS_CPPFLAGS $CPPFLAGS"
+    CXXFLAGS="$METIS_CFLAGS $CXXFLAGS"
+    LDFLAGS="$METIS_LDFLAGS $LDFLAGS"
+    LIBS="$METIS_LIBS $LIBS"
+  ])
+
+  AS_IF([test "x$have_parmetis" == "xyes"],
+  [
+    CPPFLAGS="$PARMETIS_CPPFLAGS $CPPFLAGS"
+    CXXFLAGS="$PARMETIS_CFLAGS $CXXFLAGS"
+    LDFLAGS="$PARMETIS_LDFLAGS $LDFLAGS"
+    LIBS="$PARMETIS_LIBS $LIBS"
+  ])
+
   CPPFLAGS="$LOCI_CPPFLAGS $with_loci_additional_cppflags $CPPFLAGS"
   CXXFLAGS="$LOCI_CXXFLAGS $with_loci_additional_cxxflags $CXXFLAGS"
   LDFLAGS="$LOCI_LDFLAGS $with_loci_additional_ldflags $LDFLAGS"
@@ -348,7 +364,7 @@ AS_IF([test "x$_try_compile_link_loci_sample" == "xyes"],
   [
     AC_MSG_RESULT([no])
 
-    AC_MSG_ERROR([[could not link with hdf5 using:
+    AC_MSG_ERROR([[could not link with Loci using:
     LOCI_CPPFLAGS=$LOCI_CPPFLAGS
     LOCI_CXXFLAGS=$LOCI_CXXFLAGS
     LOCI_LDFLAGS=$LOCI_LDFLAGS

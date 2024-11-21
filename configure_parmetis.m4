@@ -13,7 +13,7 @@ AC_ARG_WITH([parmetis],
 [AS_HELP_STRING([--with-parmetis=yes/no],
   [Option to enable parmetis auto discovery, default: no.])],
 [],
-[with_parmetis=auto])
+[with_parmetis=no])
 
 AC_ARG_WITH([parmetis-dir],
 [AS_HELP_STRING([--with-parmetis-dir=DIR],
@@ -229,10 +229,6 @@ AS_CASE(["$_parmetis_config_option"],
 [AC_MSG_ERROR([multiple configuration options for parmetis: $_parmetis_config_option])]
 )
 
-AS_IF([test "x$have_mpi" != "xyes"],[AC_MSG_ERROR([MPI is required for parmetis])])
-
-AS_IF([test "x$have_metis" != "xyes"],[AC_MSG_ERROR([METIS is required for parmetis])])
-
 AS_IF([test "x$_try_compile_link_parmetis_sample" == "xyes"],
 [
   AC_LANG_PUSH([C])
@@ -241,6 +237,10 @@ AS_IF([test "x$_try_compile_link_parmetis_sample" == "xyes"],
   save_CFLAGS="$CFLAGS"
   save_LDFLAGS="$LDFLAGS"
   save_LIBS="$LIBS"
+
+  AS_IF([test "x$have_mpi" != "xyes"],[AC_MSG_ERROR([MPI is required for parmetis])])
+
+  AS_IF([test "x$have_metis" != "xyes"],[AC_MSG_ERROR([METIS is required for parmetis])])
 
   CPPFLAGS="$PARMETIS_CPPFLAGS $with_parmetis_additional_cppflags $MPI_CPPFLAGS $METIS_CPPFLAGS $CPPFLAGS"
   CFLAGS="$PARMETIS_CFLAGS $with_parmetis_additional_cflags $MPI_CFLAGS $METIS_CFLAGS $CFLAGS"
