@@ -176,7 +176,7 @@ AS_CASE(["$_hdf5_config_option"],
   AS_IF([test -d "$with_hdf5_dir/lib"],
   [
     dnl AC_MSG_NOTICE([directory $with_hdf5_dir/lib exists])
-    HDF5_LDFLAGS="-I$with_hdf5_dir/lib"
+    HDF5_LDFLAGS="-L$with_hdf5_dir/lib"
   ],
   [
     :
@@ -186,7 +186,7 @@ AS_CASE(["$_hdf5_config_option"],
   AS_IF([test -d "$with_hdf5_dir/lib64"],
   [
     dnl AC_MSG_NOTICE([directory $with_hdf5_dir/lib64 exists])
-    HDF5_LDFLAGS="-I$with_hdf5_dir/lib64"
+    HDF5_LDFLAGS="-L$with_hdf5_dir/lib64"
   ],
   [
     :
@@ -215,7 +215,7 @@ AS_CASE(["$_hdf5_config_option"],
   AS_IF([test -d "$with_hdf5_lib_dir"],
   [
     dnl AC_MSG_NOTICE([directory $with_hdf5_lib_dir exists])
-    HDF5_LDFLAGS="-I$with_hdf5_lib_dir"
+    HDF5_LDFLAGS="-L$with_hdf5_lib_dir"
   ],
   [
     :

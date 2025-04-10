@@ -205,7 +205,7 @@ AS_CASE(["$_metis_config_option"],
     dnl AC_MSG_NOTICE([directory $with_metis_lib_dir does not exist])
   ])
 
-  METIS_LIB="$with_metis_libs"
+  METIS_LIBS="$with_metis_libs"
 
   _try_compile_link_metis_sample=yes
 ],
